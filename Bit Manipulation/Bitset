@@ -1,0 +1,72 @@
+bitset<32> bits;
+cout << bits.size(); // 32
+
+bitset<8> b(18); // 00010010
+cout << b[0]; // 0 (LSB)
+cout << b[1]; // 1
+cout << b[4]; // 1
+
+bitset<8> b;
+
+b.set();          // all bits = 1 (11111111)
+b.set(3);         // set index 3 → 00001000
+b.set(3, 0);      // set index 3 to 0
+b.reset();        // all bits = 0
+b.reset(2);       // reset only index 2
+b.flip();         // flip all bits (0->1, 1->0)
+b.flip(1);        // flip index 1
+
+bitset<8> b(18); // 00010010
+
+cout << b.to_ulong();  // 18 as unsigned long
+cout << b.to_ullong(); // 18 as unsigned long long
+cout << b.to_string(); // "00010010"
+
+bitset<8> b(29); // 00011101
+
+cout << b.count();     // number of 1s = 4
+cout << (b.any());     // true if at least one bit is set
+cout << (b.none());    // true if all bits = 0
+cout << (b.all());     // true if all bits = 1
+
+bitset<8> a(string("10101010"));
+bitset<8> b(string("11001100"));
+
+cout << (a & b) << endl;  // AND  → 10001000
+cout << (a | b) << endl;  // OR   → 11101110
+cout << (a ^ b) << endl;  // XOR  → 01100110
+cout << (~a) << endl;     // NOT  → 01010101
+cout << (a << 2) << endl; // shift left
+cout << (b >> 3) << endl; // shift right
+
+
+APPLICATIONS -
+
+Example 1: Toggle a bit
+
+int main() {
+    bitset<8> b(18); // 00010010
+    b.flip(1);       // toggle bit 1 → 00010000
+    cout << b << endl;
+}
+
+Example 2: Check if number is power of two
+
+int main() {
+    bitset<16> b(32); // 32 = 0000000000100000
+    cout << (b.count() == 1 ? "Yes" : "No") << endl; 
+}
+
+Example 3: Subset generation
+
+int main() {
+    int n = 3; // elements: {A, B, C}
+    for (int mask = 0; mask < (1<<n); mask++) {
+        bitset<3> b(mask);
+        cout << b << " → { ";
+        for (int i = 0; i < n; i++) {
+            if (b[i]) cout << char('A' + i) << " ";
+        }
+        cout << "}\n";
+    }
+}
