@@ -70,3 +70,7 @@ int main() {
         cout << "}\n";
     }
 }
+
+Example 4 : Power of two
+
+bitset<32>b(78) -> b.count() -> if b.count()==1 then is power of two 
