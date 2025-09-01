@@ -1,3 +1,5 @@
+"ভেরি ভেরি পাওয়ারফুল, এলওয়েজ থিংক পাওয়ার সেট when n<20 or small"
+
 // Function to generate all subsets of a given vector
 void solve() {
     vector<int> v = {1, 2, 3}; // Input vector
