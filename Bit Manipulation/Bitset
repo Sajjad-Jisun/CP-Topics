@@ -1,3 +1,10 @@
+Interesting Fact -
+bitset<8>b(4)
+
+output - 00000100
+index ---76543210 (index is from lsb to msb)
+
+
 bitset<32> bits;
 cout << bits.size(); // 32
 
