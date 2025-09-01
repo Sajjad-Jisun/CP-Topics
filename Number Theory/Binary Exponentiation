@@ -1,0 +1,34 @@
+Itaretive -
+Basic : এখানে আমরা পাওয়ারের বাইনারি নিয়ে কাজ করবো মেইনলি। যেমনঃ 2^13 , 13 এর বাইনারি 1101 -> 2^13 = 2^8 * 2^4 * 0 * 2^1
+অতএব, যখন ই বাইনারি তে 1 থাকবে তার পজিশনের ডেসিমলকে পাওয়ার আকারে নিবো, 0 থাকলে স্কিপ।
+
+স্টেপ-
+পাওয়ারের lsb 1 হলে ans এর সাথে গুণ করবো, o হলে স্কিপ।
+পাওয়ারকে left shift করতে থাকবো যতক্ষোন না ০ হয়।
+
+Code-
+long long BinaryExpo(long long a, long long b) {
+    long long ans = 1;
+
+    while (b) {
+        if (b & 1) { // checking if lsb one or not
+            ans = (ans * a) % M; // 
+        }
+        a = (a * a) % M; // a^1 -> a^2 -> a^4 -> a^8 -> a^16 ...
+        b >>= 1; // 1001 -> 100 -> 10 -> 1 -> 0
+    }
+    return ans;
+}
+
+
+Recursive -
+
+long long BinaryExpoRes(long long a, long long b) {
+    if (b == 0) return 1; 
+
+    long long res = BinaryExpoRes(a, b / 2);
+    res = (res * res) % M;
+    
+    if (b & 1) res = (res * a) % M;
+    return res;
+}
