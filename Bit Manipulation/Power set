@@ -21,3 +21,16 @@ void solve() {
         cout << endl;
     }
 }
+
+
+Just the raw code -
+
+    vector<int> v = {1, 2, 3};
+    vector<vector<int>> ans;
+    for (int num = 0; num <= (1LL << v.size()); num++) {
+        vector<int> subset;
+        for (int j = 0; j < v.size(); j++) {
+            if (num & (1LL << j)) subset.push_back(v[j]);
+        }
+        ans.push_back(subset);
+    }
