@@ -28,11 +28,11 @@ void solve() {
  
         pq.erase(pq.begin());
  
-        for(auto it:v[node]){
-            if(dis[it.first]>it.second+dist){
-                pq.erase({dis[it.first],it.first});
-                dis[it.first]=it.second+dist;
-                pq.insert({dis[it.first],it.first});
+        for(auto &[child,edge]:v[node]){
+            if(dis[child]>edge+dist){
+                pq.erase({dis[child],child});
+                dis[child]=edge+dist;
+                pq.insert({dis[child],child});
             }
         }
     }
