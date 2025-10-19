@@ -1,0 +1,8 @@
+void dfs(ll node, vector<vector<ll>>&v, vector<ll>&vis, stack<ll>&ts){
+    vis[node]=1;
+
+    for(auto child:v[node]){
+        if(!vis[child])dfs(child,v,vis,ts);
+    }
+    ts.push(node); //ts is a stack
+}
