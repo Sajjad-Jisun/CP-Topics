@@ -1,4 +1,7 @@
 In directed graph -
+1) use topo sort 
+
+2)
 void dfs(ll node, vector<vector<ll>>&v, vector<ll>&vis){
     vis[node]=2;
 
