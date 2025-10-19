@@ -1,3 +1,9 @@
+What is TOPOSORT?
+-Topological Sort (TopoSort) is an ordering of the vertices of a Directed Acyclic Graph (DAG) such that:
+👉 For every directed edge u → v,
+vertex u appears before vertex v in the ordering.
+
+##Using DFS-
 void dfs(ll node, vector<vector<ll>>&v, vector<ll>&vis, stack<ll>&ts){
     vis[node]=1;
 
