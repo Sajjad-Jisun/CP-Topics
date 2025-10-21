@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define optimize() ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+typedef long long  ll;
+#define pb push_back
+#define all(v) v.begin(), v.end()
+#define printvec(_) for(auto &_x : _) {cout << _x << " ";}cout << '\n'
+#define getvec(_, n) for(int _i = 0; _i<n; _i++){ll _x;cin>>_x;_.push_back(_x);}
+#define getvecp(_,n) for(int _i=0; _i<n; _i++){ll _x,_y; cin>>_x>>_y; _.push_back({_x,_y});}
+#define printp(_) cout << _.first << " " << _.second << '\n'
+const ll MOD = 1e9 + 7, inf = 1e18;
+
+void solve() {
+    ll n,m; cin>>n>>m;
+    vector<vector<pair<ll,ll>>>v(n+1);
+    vector<vector<ll>>dist(n+1,vector<ll>(2,LLONG_MAX));
+
+    for(int i=0;i<m;i++){
+        ll x,y,z; cin>>x>>y>>z;
+        v[x].pb({y,z});
+    }
+
+    set<tuple<ll,ll,ll>>pq; pq.insert({0,1,0}); //dis,node,op
+    dist[1][0]=0;
+
+    while(!pq.empty()){
+        auto [dis,node,op]=*pq.begin();
+        pq.erase(pq.begin());
+
+        for(auto [child, edge]:v[node]){
+            if(dist[child][op]>dis+edge){
+                pq.erase({dist[child][op],child,op});
+                dist[child][op]=dis+edge;
+                pq.insert({dist[child][op],child,op});
+            }
+
+            if(op==0){
+                if(dist[child][1]>dis+edge/2){
+                    pq.erase({dist[child][op],child,1});
+                    dist[child][1]=dis+edge/2;
+                    pq.insert({dist[child][1],child,1});
+                }
+            }
+        }
+    }
+    cout<<min(dist[n][0],dist[n][1])<<endl;
+}
+ 
+int main() {
+    optimize();
+    int t=1;
+    //cin >> t;
+    while (t--) {
+        solve();
+    }
+    // solve();
+    return 0;
+}
