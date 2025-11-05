@@ -2,118 +2,80 @@ In directed graph -
 DFS and Kahn’s will detect: “There is a cycle.” ✅
 But they cannot say whether it’s negative or positive. ❌
 
+| Algorithm             | Detects                        | Restores cycle path?       | Complexity  | Notes                           |
+| --------------------- | ------------------------------ | -------------------------- | ----------- | ------------------------------- |
+| DFS + recursion stack | Any cycle (one)                | ✅ Yes (one cycle)          | O(V+E)      | Most practical for single cycle |
+| Kahn’s topo sort      | Any cycle                      | ❌ No                       | O(V+E)      | Only checks existence           |
+| Tarjan SCC            | Any cycle                      | ✅ Partially (nodes in SCC) | O(V+E)      | Useful for all SCCs with cycles |
+| Johnson               | All simple cycles              | ✅ Yes                      | O((V+E)*C)  | For enumerating all cycles      |
+| Bellman-Ford          | Negative cycles                | ✅ Yes                      | O(V*E)      | Weighted graphs only            |
+| Floyd–Warshall        | All cycles / negative cycles   | ✅ (with path table)        | O(V³)       | Small graphs                    |
+| Union-Find            | Undirected / functional graphs | ✅ (via parent)             | O(E*α(V))   | Not for general directed graphs |
+| Matrix powers         | Any cycle                      | ✅ (with extra tracking)    | O(V³ log V) | For very small graphs           |
+
+
 1) use topo sort (DFS or Khans Algo)
 
-2)
-bool dfs(int u, vector<vector<int>>& adj, vector<int>& vis) {
-    vis[u] = 1; // visiting
+2) Restore path (1 based indexing)
 
-    for (int v : adj[u]) {
-        if (vis[v] == 0) {
-            if (dfs(v, adj, vis)) return true;
-        } else if (vis[v] == 1) {
-            // Back edge → cycle
+int n;
+vector<vector<int>> adj;
+vector<char> color;
+vector<int> parent;
+int cycle_start, cycle_end;
+
+bool dfs(int v) {
+    color[v] = 1;
+    for (int u : adj[v]) {
+        if (color[u] == 0) {
+            parent[u] = v;
+            if (dfs(u))
+                return true;
+        } else if (color[u] == 1) {
+            cycle_end = v;
+            cycle_start = u;
             return true;
         }
     }
-
-    vis[u] = 2; // done
+    color[v] = 2;
     return false;
 }
 
-bool hasCycle(int n, vector<vector<int>>& adj) {
-    vector<int> vis(n + 1, 0);
-    for (int i = 1; i <= n; i++) {
-        if (vis[i] == 0 && dfs(i, adj, vis))
-            return true;
+void find_cycle() {
+    color.assign(n+1, 0);
+    parent.assign(n+1, -1);
+    cycle_start = -1;
+
+    for (int v = 1; v < n; v++) {
+        if (color[v] == 0 && dfs(v))
+            break;
     }
-    return false;
+
+    if (cycle_start == -1) {
+        cout << "IMPOSSIBLE" << endl;
+    } else {
+        vector<int> cycle;
+        cycle.push_back(cycle_start);
+        for (int v = cycle_end; v != cycle_start; v = parent[v])
+            cycle.push_back(v);
+        cycle.push_back(cycle_start);
+        reverse(cycle.begin(), cycle.end());
+
+        cout << cycle.size()<<endl;
+        for (int v : cycle)
+            cout << v << " ";
+        cout << endl;
+    }
 }
 
+int main(){
+    int m; cin>>n>>m;
+    adj.assign(n+1, {});
 
+    for(int i=0;i<m;i++){
+        ll x,y; cin>>x>>y;
+        adj[x].pb(y);
+    }
+    find_cycle();
+}
 
-1️⃣ DFS with Recursion Stack (Already Covered)
-
-Detects: Any cycle (positive or negative weights irrelevant).
-
-Restores: The first cycle found using a path array.
-
-Complexity: O(V + E)
-
-Use case: Simple, efficient for detecting a cycle and restoring one cycle.
-
-2️⃣ Kahn’s Algorithm (Topological Sort)
-
-Detects: If a cycle exists (structural only).
-
-Restores: Cannot restore cycle path easily.
-
-Complexity: O(V + E)
-
-Use case: Only check for existence; often used in DAG validation.
-
-⚠️ Not suitable for restoring cycle paths.
-
-3️⃣ Tarjan’s Strongly Connected Components (SCC)
-
-Detects: Cycles via SCCs (any SCC with size ≥2 or self-loop indicates a cycle).
-
-Restores: All nodes in a cycle (via SCC) but not necessarily a simple path forming the cycle.
-
-Complexity: O(V + E)
-
-Use case: Finding all cycles or sets of nodes that can form cycles.
-
-Tip: If SCC has size ≥2, pick any node and reconstruct a path using DFS within that SCC.
-
-4️⃣ Johnson’s Algorithm (All Cycles)
-
-Detects: All simple cycles in a directed graph.
-
-Restores: Every cycle in the graph.
-
-Complexity: O((V + E) * C) where C = number of cycles
-
-Use case: When you need every cycle, e.g., enumerating all cycles for analysis.
-
-Notes: Uses blocked sets and recursion to avoid duplicates.
-
-5️⃣ Bellman-Ford (Negative Weight Cycles)
-
-Detects: Negative weight cycles only.
-
-Restores: Can reconstruct a negative cycle path by tracking predecessors (parent[]) after an extra relaxation detects a cycle.
-
-Complexity: O(V * E)
-
-Use case: Weighted graphs, competitive programming, detecting arbitrage, etc.
-
-6️⃣ Floyd–Warshall (Transitive Closure)
-
-Detects: Cycles via dist[i][i] < 0 (negative cycle) or reach[i][i] == true (any cycle).
-
-Restores: Can reconstruct paths using a next-node table.
-
-Complexity: O(V³)
-
-Use case: Small graphs, all-pairs shortest paths, negative cycles.
-
-7️⃣ Union-Find / Disjoint Set (Special Case)
-
-Detects: Cycles only in undirected graphs or functional graphs (each node has ≤1 outgoing edge).
-
-Restores: Can reconstruct path using parent array.
-
-Complexity: O(E * α(V))
-
-Use case: Special cases, not general directed graphs.
-
-8️⃣ Matrix Exponentiation / Adjacency Matrix Powers
-
-Detects: Cycle if (Adj^k)[i][i] > 0 for some k.
-
-Restores: Only possible if you track intermediate matrices.
-
-Complexity: O(V³ log V)
-
-Use case: Very small graphs or theoretical analysis.
