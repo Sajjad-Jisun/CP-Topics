@@ -1,0 +1,40 @@
+void solve() {
+    ll n,m; cin>>n>>m;
+    vector<pair<pair<ll,ll>,ll>>v;
+    for(int i=0;i<m;i++){
+        ll x,y,z; cin>>x>>y>>z;
+        v.pb({{x,y},z});
+    }
+ 
+    vector<ll>dist(n+1,0),p(n+1,-1); dist[1]=0;
+    int x=-1;
+    for(int i=1;i<=n;i++){
+        x=-1;
+        for(auto it:v){
+            ll a=it.first.first;
+            ll b=it.first.second;
+            ll w=it.second;
+ 
+            if(dist[a]+w<dist[b]){
+                dist[b] = max(LLONG_MIN, dist[a] + w);
+                p[b]=a;
+                x=b;
+            }
+        }
+    }
+ 
+    if(x==-1){cn; return;}
+ 
+    for(int i=1;i<=n;i++)x=p[x];
+ 
+    vector<ll>ans;
+    for(int i=x; ; i=p[i]){
+        ans.pb(i);
+        if(ans.size()>1 && i==x)break;
+    }
+    reverse(all(ans));
+    cy; 
+    for(auto it:ans)cout<<it<<" ";
+    cout<<endl;
+    
+}
