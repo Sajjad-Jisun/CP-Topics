@@ -1,3 +1,8 @@
+Shortest path from src    ->	                     dist[src] = 0, others INF	
+Detect any negative cycle ->	                     dist[i] = 0 for all i	
+Detect reachable negative cycle from src ->	         dist[src] = 0, others INF
+
+
 void solve() {
     ll n,m; cin>>n>>m;
     vector<pair<pair<ll,ll>,ll>>v;
@@ -6,7 +11,7 @@ void solve() {
         v.pb({{x,y},z});
     }
  
-    vector<ll>dist(n+1,0),p(n+1,-1); dist[1]=0; //for finding negtive cycle dist must be intialized with zero
+    vector<ll>dist(n+1,0),p(n+1,-1); //for finding any negtive cycle all dist must be intialized with zero
     int x=-1;
     for(int i=1;i<=n;i++){
         x=-1;
