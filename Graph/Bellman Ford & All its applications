@@ -1,7 +1,5 @@
-Shortest path from src    ->	                     dist[src] = 0, others INF	
-Detect any negative cycle ->	                     dist[i] = 0 for all i	
-Detect reachable negative cycle from src ->	         dist[src] = 0, others INF
-
+Shortest path or negetive cycle from src ->	          dist[src] = 0, others INF	
+Detect any negative cycle anywhere       ->	          dist[i] = 0 for all i	
 
 void solve() {
     ll n,m; cin>>n>>m;
