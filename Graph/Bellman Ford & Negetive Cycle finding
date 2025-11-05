@@ -6,7 +6,7 @@ void solve() {
         v.pb({{x,y},z});
     }
  
-    vector<ll>dist(n+1,0),p(n+1,-1); dist[1]=0;
+    vector<ll>dist(n+1,0),p(n+1,-1); dist[1]=0; //for finding negtive cycle dist must be intialized with zero
     int x=-1;
     for(int i=1;i<=n;i++){
         x=-1;
