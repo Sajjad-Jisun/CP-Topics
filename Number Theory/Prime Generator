@@ -1,22 +1,15 @@
-const int N=1e6+6;
-vector<int> Prime_List() {
-    vector<bool> isPrime(N + 1, true);
-    isPrime[0] = false; dfg
-    if (N >= 1) isPrime[1] = false;
-
-    for (int p = 2; p * 1LL * p <= N; p++) {
-        if (isPrime[p]) {
-            for (int i = p * 1LL * p; i <= N; i += p)
-                isPrime[i] = false;
+const int N=1000000;
+bool prime[N+1];
+vector<int>primes;
+void sieve(){
+    for(int i=2;i<=N;i++)prime[i]=true;
+    
+    for(int i=2;i*i<=N;i++) {
+        if (prime[i]) {
+            for (int j=i*i;j<=N;j+=i){
+                prime[i]=false;
+            }
         }
     }
-
-    vector<int> primes;
-    primes.reserve(N / log(max(2, N)));
-
-    for (int i = 2; i <= N; i++)
-        if (isPrime[i])
-            primes.push_back(i);
-
-    return primes;
+    for(int i=2;i<=N;i++) if(prime[i]) primes.push_back(i);
 }
