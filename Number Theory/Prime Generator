@@ -7,7 +7,7 @@ void sieve(){
     for(int i=2;i*i<=N;i++) {
         if (prime[i]) {
             for (int j=i*i;j<=N;j+=i){
-                prime[i]=false;
+                prime[j]=false;
             }
         }
     }
