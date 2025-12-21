@@ -1,0 +1,81 @@
+In directed graph -
+DFS and Kahn’s will detect: “There is a cycle.” ✅
+But they cannot say whether it’s negative or positive. ❌
+
+| Algorithm             | Detects                        | Restores cycle path?       | Complexity  | Notes                           |
+| --------------------- | ------------------------------ | -------------------------- | ----------- | ------------------------------- |
+| DFS + recursion stack | Any cycle (one)                | ✅ Yes (one cycle)          | O(V+E)      | Most practical for single cycle |
+| Kahn’s topo sort      | Any cycle                      | ❌ No                       | O(V+E)      | Only checks existence           |
+| Tarjan SCC            | Any cycle                      | ✅ Partially (nodes in SCC) | O(V+E)      | Useful for all SCCs with cycles |
+| Johnson               | All simple cycles              | ✅ Yes                      | O((V+E)*C)  | For enumerating all cycles      |
+| Bellman-Ford          | Negative cycles                | ✅ Yes                      | O(V*E)      | Weighted graphs only            |
+| Floyd–Warshall        | All cycles / negative cycles   | ✅ (with path table)        | O(V³)       | Small graphs                    |
+| Union-Find            | Undirected / functional graphs | ✅ (via parent)             | O(E*α(V))   | Not for general directed graphs |
+| Matrix powers         | Any cycle                      | ✅ (with extra tracking)    | O(V³ log V) | For very small graphs           |
+
+
+1) use topo sort (DFS or Khans Algo)
+
+2) Restore path (1 based indexing)
+
+int n;
+vector<vector<int>> adj;
+vector<char> color;
+vector<int> parent;
+int cycle_start, cycle_end;
+
+bool dfs(int v) {
+    color[v] = 1;
+    for (int u : adj[v]) {
+        if (color[u] == 0) {
+            parent[u] = v;
+            if (dfs(u))
+                return true;
+        } else if (color[u] == 1) {
+            cycle_end = v;
+            cycle_start = u;
+            return true;
+        }
+    }
+    color[v] = 2;
+    return false;
+}
+
+void find_cycle() {
+    color.assign(n+1, 0);
+    parent.assign(n+1, -1);
+    cycle_start = -1;
+
+    for (int v = 1; v < n; v++) {
+        if (color[v] == 0 && dfs(v))
+            break;
+    }
+
+    if (cycle_start == -1) {
+        cout << "IMPOSSIBLE" << endl;
+    } else {
+        vector<int> cycle;
+        cycle.push_back(cycle_start);
+        for (int v = cycle_end; v != cycle_start; v = parent[v])
+            cycle.push_back(v);
+        cycle.push_back(cycle_start);
+        reverse(cycle.begin(), cycle.end());
+
+        cout << cycle.size()<<endl;
+        for (int v : cycle)
+            cout << v << " ";
+        cout << endl;
+    }
+}
+
+int main(){
+    int m; cin>>n>>m;
+    adj.assign(n+1, {});
+
+    for(int i=0;i<m;i++){
+        ll x,y; cin>>x>>y;
+        adj[x].pb(y);
+    }
+    find_cycle();
+}
+
