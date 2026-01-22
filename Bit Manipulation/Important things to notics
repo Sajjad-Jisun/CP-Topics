@@ -1,0 +1,17 @@
+6   = 00110₂
+7   = 00111₂
+8   = 01000₂
+9   = 01001₂
+10  = 01010₂
+11  = 01011₂
+12  = 01100₂
+13  = 01101₂
+14  = 01110₂
+
+Observation when increasing a number by 1 (from x to x + 1):
+
+All trailing 1s are flipped to 0s.
+
+The rightmost 0 just before those trailing 1s is flipped to 1.
+
+All bits to the left of that position remain unchanged.
