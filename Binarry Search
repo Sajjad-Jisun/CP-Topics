@@ -1,0 +1,35 @@
+⚡ 3-LINE BINARY SEARCH CHEAT SHEET
+1️⃣ FIRST TRUE (minimum answer)
+while (l < r) mid=(l+r)/2, if (ok(mid)) r=mid else l=mid+1
+2️⃣ LAST TRUE (maximum answer)
+while (l < r) mid=(l+r+1)/2, if (ok(mid)) l=mid else r=mid-1
+3️⃣ EXACT SEARCH (classic)
+while (l <= r) mid=(l+r)/2, if (a[mid]==x) return mid else move l/r by mid±1
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+
+// change this based on problem
+bool check(ll x) {
+    // return true if x is possible
+}
+
+int main() {
+    ll low = 0, high = 1e18; // adjust range
+
+    while (low < high) {
+        ll mid = (low + high) / 2;
+
+        if (check(mid)) {
+            high = mid;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    cout << low << endl;
+}
