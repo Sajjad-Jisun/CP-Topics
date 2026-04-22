@@ -1,0 +1,51 @@
+The median minimizes the sum of absolute distances to all points in the dataset.
+
+Formally, if you pick any value x, and compute:  ∑∣ai−x∣
+then this sum is minimum when x is the median.
+
+Whenever you see:
+“minimize sum of distances”
+“operations = |a[i] - x|”
+“make all equal with minimum moves”
+👉 Immediately think:
+Sort → Median → Answer
+
+🟢 Case 1: Odd number of points
+Example:
+Points:
+1, 3, 5
+Sorted already.
+👉 Median = 3
+
+🟢 Case 2: Even number of points
+Example:
+Points:
+1, 3, 5, 7
+👉 Two medians:
+Lower median = 3
+Upper median = 5
+🔑 Important fact:
+👉 Any value between 3 and 5 gives the SAME minimum cost
+
+
+
+⚡ 1. Classic Problem: Minimum Moves to Equal Array
+Problem:
+You can increment/decrement any element by 1.
+Find minimum operations to make all elements equal.
+Solution:
+Target value = median
+Answer = sum of absolute differences
+
+⚡ 2. 1D Facility Location Problem
+Problem:
+You want to place a warehouse on a number line so that total distance to all houses is minimum.
+Insight:
+👉 Place it at the median location
+
+⚡ 4. Minimum Cost to Align Points
+Problem:
+Given points on a line, make them all equal with minimum cost.
+👉 Same pattern:
+If cost = absolute difference → median
+If cost = squared difference → mean
